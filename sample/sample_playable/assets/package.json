@@ -1,0 +1,21 @@
+{
+  "name": "sample-playable-ad",
+  "version": "0.0.1",
+  "description": "A template for Google Web Designer playable ad content.",
+  "main": "index.js",
+  "scripts": {
+    "start": "browser-sync start --server '.' --files '*.*' --port 5000",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "uglifyjs --compress -o main.min.js -- playable.js playable_*.js"
+  },
+  "author": "Xyla",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "easeljs": "^1.0.2",
+    "preloadjs": "^1.0.1",
+    "tweenjs": "^1.0.2",
+    "uglify-es": "^3.3.9"
+  },
+  "dependencies": {}
+}
