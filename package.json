@@ -2,11 +2,11 @@
   "name": "sample-playable-ad",
   "version": "0.0.1",
   "description": "A template for Google Web Designer playable ad content.",
-  "main": "index.js",
+  "main": "sample/sample_playable/assets/index.js",
   "scripts": {
-    "start": "browser-sync start --server '.' --files '*.*' --port 5000",
+    "start": "cd sample/sample_playable/assets && browser-sync start --server '.' --files '*.*' --port 5000",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "minify": "uglifyjs --compress -o main.min.js -- playable.js playable_*.js"
+    "minify": "cd sample/sample_playable/assets && uglifyjs --compress -o main.min.js -- playable.js playable_*.js"
   },
   "author": "Xyla",
   "license": "MIT",
