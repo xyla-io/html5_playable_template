@@ -17,7 +17,6 @@
 
   FirstScene.prototype.setup = function(props) {
     // Load a bitmap and make it invisible
-    console.log('setup');
     this.sample = new createjs.Bitmap(this.delegate.preloader.getResult('Sample'));
     this.stage.addChild(this.sample);
     this.sample.alpha = 0;
@@ -27,7 +26,6 @@
     this.sample.on('click', () => {
       this.delegate.sceneDelegateSceneShouldEnd(this)
     });
-    console.log(this.stage);
 
     // Create a fade-in effect on the bitmap
     let timeline = new createjs.Timeline();
