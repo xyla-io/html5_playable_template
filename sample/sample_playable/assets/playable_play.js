@@ -19,7 +19,7 @@ try {
 
   playable.playScenes = function({scenes, canvasID = 'playable-canvas', completion = null, background = undefined, preloader = undefined}) {
     let stage = new createjs.Stage(canvasID);
-    let story = new playable.Story(stage, completion);
+    let story = new playable.Story(stage, completion, preloader);
     story.tell(background, scenes);
     return story;
   };
