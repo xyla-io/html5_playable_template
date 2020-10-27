@@ -11,6 +11,8 @@ var playable = (function() {
     centerY: 'centerY',
   };
 
+  playable.context = {};
+
   Object.defineProperty(createjs.DisplayObject.prototype, 'frame', {
     get: function() {
       let bounds = this.getBounds();

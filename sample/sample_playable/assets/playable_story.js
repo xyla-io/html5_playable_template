@@ -5,10 +5,11 @@ try {
 } catch (e) {}
 
 (function() {
-  function Story(stage, completion) {
+  function Story(stage, completion, preloader) {
     this.completion = completion;
     this.stage = stage;
     this.isWaitingForPreloadToAdvanceScene = false;
+    this.preloader = preloader || playable.Preloader.shared;
   };
   
   Story.prototype.setBackground = function(image) {
@@ -40,7 +41,7 @@ try {
       this.preloadedScenes.push(scene);
       return new Promise((resolve, reject) => resolve(scene));
     }
-    return playable.Preloader.shared.loadManifest(manifest)
+    return this.preloader.loadManifest(manifest)
       .then(() => {
         this.preloadedScenes.push(scene);
         return scene;
