@@ -8,7 +8,7 @@ try {
   playable.play = function(completion) {
     playable.Preloader.shared = new playable.Preloader;
     let stage = new createjs.Stage('playable-canvas');
-    this.story = new playable.Story(stage, completion);
+    this.story = new playable.Story(stage, completion, playable.Preloader.shared);
     let scenes = [
       new playable.context.FirstScene(stage, playable.SceneConfiguration.shared, this.story),
       new playable.context.SecondScene(stage, playable.SceneConfiguration.shared, this.story),

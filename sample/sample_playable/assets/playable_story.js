@@ -9,7 +9,7 @@ try {
     this.completion = completion;
     this.stage = stage;
     this.isWaitingForPreloadToAdvanceScene = false;
-    this.preloader = preloader || playable.Preloader.shared;
+    this.preloader = preloader || new playable.Preloader;
   };
   
   Story.prototype.setBackground = function(image) {
