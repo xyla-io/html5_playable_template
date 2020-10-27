@@ -1,3 +1,9 @@
+try {
+  if (module.exports !== undefined) {
+    var playable = require('./playable');
+  }
+} catch (e) {}
+
 (function() {
   playable.play = function(completion) {
     playable.Preloader.shared = new playable.Preloader;

@@ -1,3 +1,9 @@
+try {
+  if (module.exports !== undefined) {
+    var playable = require('./playable');
+  }
+} catch (e) {}
+
 (function() {
   const p = playable;
   const FULL_DIMENSIONS = { width: 320, height: 480 };

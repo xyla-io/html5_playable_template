@@ -1,4 +1,4 @@
-let playable = (function() {
+var playable = (function() {
   let playable = {};
 
   playable.Position = {
@@ -136,3 +136,9 @@ let playable = (function() {
 
   return playable;
 })();
+
+try {
+  if (module.exports !== undefined) {
+    module.exports = playable;
+  }
+} catch (e) {}

@@ -1,3 +1,9 @@
+try {
+  if (module.exports !== undefined) {
+    var playable = require('./playable');
+  }
+} catch (e) {}
+
 (function() {
   function Scene(stage, config, delegate) {
     this.stage = stage;
