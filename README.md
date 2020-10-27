@@ -20,11 +20,12 @@ However, the main playable development should be done independent of GWD using t
 ├── playable.js               # initialization of the playable framework
 ├── playable_dimensions.js    # dimension file which can be used to isolate differences between the same playable with different dimensions
 ├── playable_play.js          # starts the story, loading scenes in the order they should be played
-├── playable_scenes.js        # defines the assets, animations, and interactions of each scene in the story
+├── playable_scenes.js        # defines the base Scene class that can be extended to define scenes
 ├── playable_story.js         # manages the flow of the story when scenes change 
 ├── preloadjs.js              # dev version of PreloadJS, used for preparing assets for when they are needed in the story
 ├── preloadjs.min.js          # prod version of PreloadJS
 ├── sample.png                # A sample PNG file that is used in the scenes to demonstrate how to load and configure assets
+├── sample_scenes.js          # defines the custom assets, animations, and interactions of each scene in the story
 ├── tweenjs.js                # dev version of TweenJS, used for animations
 └── tweenjs.min.js            # prod version of TweenJS
 ```
