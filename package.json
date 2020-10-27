@@ -6,7 +6,10 @@
   "scripts": {
     "start": "cd sample/sample_playable/assets && browser-sync start --server '.' --files '*.*' --port 5000",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "minify": "cd sample/sample_playable/assets && uglifyjs --compress -o main.min.js -- playable.js playable_*.js"
+    "minify": "cd sample/sample_playable/assets && uglifyjs --compress -o main.min.js -- playable.js playable_*.js sample_*.js",
+    "dist": "npm run minify_dist && npm run debug_dist",
+    "minify_dist": "uglifyjs --compress -o dist/playable.min.js -- sample/sample_playable/assets/playable.js sample/sample_playable/assets/playable_*.js && cp sample/sample_playable/assets/easeljs.min.js sample/sample_playable/assets/tweenjs.min.js sample/sample_playable/assets/preloadjs.min.js dist/",
+    "debug_dist": "uglifyjs --beautify -o dist/playable.js -- sample/sample_playable/assets/playable.js sample/sample_playable/assets/playable_*.js && cp sample/sample_playable/assets/easeljs.js sample/sample_playable/assets/tweenjs.js sample/sample_playable/assets/preloadjs.js dist/"
   },
   "author": "Xyla",
   "license": "MIT",
