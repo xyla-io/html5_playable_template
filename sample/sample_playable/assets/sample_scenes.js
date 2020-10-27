@@ -34,6 +34,13 @@
     let fadeIn = shape => timeline.addTween(createjs.Tween.get(shape).to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(4)));
     fadeIn(this.sample);
 
+    // Create a bounce animation on the bitmap
+    const bounceRange = 10;
+    createjs.Tween.get(this.sample, { loop: 8 })
+      .to({ y: this.sample.y + bounceRange }, 200)
+      .wait(100)
+      .to({ y: this.sample.y - bounceRange }, 200)
+
     // End the scene after 10 seconds if the user doesn't interact
     this.checkForInteractionTimeout = setTimeout(() => {
       this.delegate.sceneDelegateSceneShouldEnd(this);
