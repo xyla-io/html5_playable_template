@@ -13,6 +13,10 @@ var playable = (function() {
 
   playable.context = {};
 
+  playable.SceneConfiguration = {
+    shared: {}
+  };
+
   if (!('frame' in createjs.DisplayObject.prototype)) {
     Object.defineProperty(createjs.DisplayObject.prototype, 'frame', {
       get: function() {
