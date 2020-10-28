@@ -13,30 +13,34 @@ var playable = (function() {
 
   playable.context = {};
 
-  Object.defineProperty(createjs.DisplayObject.prototype, 'frame', {
-    get: function() {
-      let bounds = this.getBounds();
-      return {
-        x: this.x - this.regX,
-        y: this.y - this.regY,
-        width: bounds.width,
-        height: bounds.height
-      }
-    },
-  });
+  if (!('frame' in createjs.DisplayObject.prototype)) {
+    Object.defineProperty(createjs.DisplayObject.prototype, 'frame', {
+      get: function() {
+        let bounds = this.getBounds();
+        return {
+          x: this.x - this.regX,
+          y: this.y - this.regY,
+          width: bounds.width,
+          height: bounds.height
+        }
+      },
+    });
+  }
 
-  Object.defineProperty(createjs.DisplayObject.prototype, 'origin', {
-    get: function() {
-      return {
-        x: this.x - this.regX,
-        y: this.y - this.regY,
+  if (!('origin' in createjs.DisplayObject.prototype)) {
+    Object.defineProperty(createjs.DisplayObject.prototype, 'origin', {
+      get: function() {
+        return {
+          x: this.x - this.regX,
+          y: this.y - this.regY,
+        }
+      },
+      set: function(newValue) {
+        this.x = newValue.x + this.regX;
+        this.y = newValue.y + this.regY;
       }
-    },
-    set: function(newValue) {
-      this.x = newValue.x + this.regX;
-      this.y = newValue.y + this.regY;
-    }
-  });
+    });
+  }
 
   createjs.DisplayObject.prototype.positionRelativeTo = function(other, direction, spacing) {
     let thisFrame = this.frame;
