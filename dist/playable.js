@@ -10,29 +10,36 @@ var playable = function() {
         centerY: "centerY"
     };
     playable.context = {};
-    Object.defineProperty(createjs.DisplayObject.prototype, "frame", {
-        get: function() {
-            let bounds = this.getBounds();
-            return {
-                x: this.x - this.regX,
-                y: this.y - this.regY,
-                width: bounds.width,
-                height: bounds.height
-            };
-        }
-    });
-    Object.defineProperty(createjs.DisplayObject.prototype, "origin", {
-        get: function() {
-            return {
-                x: this.x - this.regX,
-                y: this.y - this.regY
-            };
-        },
-        set: function(newValue) {
-            this.x = newValue.x + this.regX;
-            this.y = newValue.y + this.regY;
-        }
-    });
+    playable.SceneConfiguration = {
+        shared: {}
+    };
+    if (!("frame" in createjs.DisplayObject.prototype)) {
+        Object.defineProperty(createjs.DisplayObject.prototype, "frame", {
+            get: function() {
+                let bounds = this.getBounds();
+                return {
+                    x: this.x - this.regX,
+                    y: this.y - this.regY,
+                    width: bounds.width,
+                    height: bounds.height
+                };
+            }
+        });
+    }
+    if (!("origin" in createjs.DisplayObject.prototype)) {
+        Object.defineProperty(createjs.DisplayObject.prototype, "origin", {
+            get: function() {
+                return {
+                    x: this.x - this.regX,
+                    y: this.y - this.regY
+                };
+            },
+            set: function(newValue) {
+                this.x = newValue.x + this.regX;
+                this.y = newValue.y + this.regY;
+            }
+        });
+    }
     createjs.DisplayObject.prototype.positionRelativeTo = function(other, direction, spacing) {
         let thisFrame = this.frame;
         let otherFrame = other.frame;
@@ -191,7 +198,7 @@ try {
     playable.play = function(completion) {
         playable.Preloader.shared = new playable.Preloader();
         let stage = new createjs.Stage("playable-canvas");
-        this.story = new playable.Story(stage, completion);
+        this.story = new playable.Story(stage, completion, playable.Preloader.shared);
         let scenes = [ new playable.context.FirstScene(stage, playable.SceneConfiguration.shared, this.story), new playable.context.SecondScene(stage, playable.SceneConfiguration.shared, this.story) ];
         let background = undefined;
         this.story.tell(background, scenes);
@@ -199,7 +206,7 @@ try {
     playable.playScenes = function({scenes: scenes, canvasID: canvasID = "playable-canvas", completion: completion = null, background: background = undefined, preloader: preloader = undefined}) {
         let stage = new createjs.Stage(canvasID);
         let story = new playable.Story(stage, completion, preloader);
-        let sceneInstances = scenes.map(sceneClass => new sceneClass(stage, playable.SceneConfiguration.shared, this.story));
+        let sceneInstances = scenes.map(sceneClass => new sceneClass(stage, playable.SceneConfiguration.shared, story));
         story.tell(background, sceneInstances);
         return story;
     };
@@ -243,7 +250,7 @@ try {
         this.completion = completion;
         this.stage = stage;
         this.isWaitingForPreloadToAdvanceScene = false;
-        this.preloader = preloader || playable.Preloader.shared;
+        this.preloader = preloader || new playable.Preloader();
     }
     Story.prototype.setBackground = function(image) {
         if (this.background) {
