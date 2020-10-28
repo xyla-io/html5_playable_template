@@ -21,7 +21,7 @@ try {
     let stage = new createjs.Stage(canvasID);
     let story = new playable.Story(stage, completion, preloader);
 
-    let sceneInstances = scenes.map(sceneClass => new sceneClass(stage, playable.SceneConfiguration.shared, this.story));
+    let sceneInstances = scenes.map(sceneClass => new sceneClass(stage, playable.SceneConfiguration.shared, story));
 
     story.tell(background, sceneInstances);
     return story;
