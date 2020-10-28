@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A template for Google Web Designer playable ad content.",
   "main": "sample/sample_playable/assets/index.js",
+  "types": "sample/sample_playable/assets/index.d.ts",
   "scripts": {
     "start": "cd sample/sample_playable/assets && browser-sync start --server '.' --files '*.*' --port 5000",
     "test": "echo \"Error: no test specified\" && exit 1",
