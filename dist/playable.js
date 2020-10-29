@@ -203,9 +203,9 @@ try {
         let background = undefined;
         this.story.tell(background, scenes);
     };
-    playable.playScenes = function({scenes: scenes, canvasID: canvasID = "playable-canvas", completion: completion = null, background: background = undefined, preloader: preloader = undefined}) {
+    playable.playScenes = function({scenes: scenes, canvasID: canvasID = "playable-canvas", completion: completion, onEvent: onEvent, background: background, preloader: preloader}) {
         let stage = new createjs.Stage(canvasID);
-        let story = new playable.Story(stage, completion, preloader);
+        let story = new playable.Story(stage, completion, preloader, onEvent);
         let sceneInstances = scenes.map(sceneClass => new sceneClass(stage, playable.SceneConfiguration.shared, story));
         story.tell(background, sceneInstances);
         return story;
@@ -236,6 +236,7 @@ try {
     Scene.prototype.checkIntersection = function(rect1, rect2) {
         return !(rect1.x >= rect2.x + rect2.width || rect1.x + rect1.width <= rect2.x || rect1.y >= rect2.y + rect2.height || rect1.y + rect1.height <= rect2.y);
     };
+    Scene.prototype.onEvent = function(event) {};
     playable.Scene = Scene;
 })();
 
@@ -246,8 +247,9 @@ try {
 } catch (e) {}
 
 (function() {
-    function Story(stage, completion, preloader) {
+    function Story(stage, completion, preloader, onEvent) {
         this.completion = completion;
+        this.onEvent = onEvent;
         this.stage = stage;
         this.isWaitingForPreloadToAdvanceScene = false;
         this.preloader = preloader || new playable.Preloader();
@@ -317,6 +319,21 @@ try {
             });
         }
     };
+    Story.prototype.sendEvent = function(event) {
+        if (!this.currentScene) {
+            return;
+        }
+        this.currentScene.onEvent(event);
+    };
+    Story.prototype.sceneDelegateGetPreloader = function(scene) {
+        return this.preloader;
+    };
+    Story.prototype.sceneDelegateEmitEvent = function(scene, event) {
+        if (!this.onEvent) {
+            return;
+        }
+        this.onEvent(event);
+    };
     Story.prototype.sceneDelegateSceneShouldEnd = function(scene) {
         if (scene !== this.currentScene) {
             return;
@@ -324,6 +341,9 @@ try {
         this.advanceSceneWhenReady();
     };
     Story.prototype.sceneDelegateStoryShouldEnd = function(scene) {
+        if (!this.completion) {
+            return;
+        }
         this.completion();
     };
     playable.Story = Story;
