@@ -17,9 +17,9 @@ try {
     this.story.tell(background, scenes);
   };
 
-  playable.playScenes = function({scenes, canvasID = 'playable-canvas', completion = null, background = undefined, preloader = undefined}) {
+  playable.playScenes = function({scenes, canvasID = 'playable-canvas', completion, onEvent, background, preloader}) {
     let stage = new createjs.Stage(canvasID);
-    let story = new playable.Story(stage, completion, preloader);
+    let story = new playable.Story(stage, completion, preloader, onEvent);
 
     let sceneInstances = scenes.map(sceneClass => new sceneClass(stage, playable.SceneConfiguration.shared, story));
 

@@ -5,8 +5,9 @@ try {
 } catch (e) {}
 
 (function() {
-  function Story(stage, completion, preloader) {
+  function Story(stage, completion, preloader, onEvent) {
     this.completion = completion;
+    this.onEvent = onEvent;
     this.stage = stage;
     this.isWaitingForPreloadToAdvanceScene = false;
     this.preloader = preloader || new playable.Preloader;
@@ -82,12 +83,27 @@ try {
     }
   };
 
+  Story.prototype.sendEvent = function(event) {
+    if (!this.currentScene) { return; }
+    this.currentScene.onEvent(event);
+  }
+
+  Story.prototype.sceneDelegateGetPreloader = function(scene) {
+    return this.preloader;
+  };
+
+  Story.prototype.sceneDelegateEmitEvent = function(scene, event) {
+    if (!this.onEvent) { return; }
+    this.onEvent(event);
+  };
+
   Story.prototype.sceneDelegateSceneShouldEnd = function(scene) {
     if (scene !== this.currentScene) { return; }
     this.advanceSceneWhenReady();
   };
 
   Story.prototype.sceneDelegateStoryShouldEnd = function(scene) {
+    if (!this.completion) { return; }
     this.completion();
   };
 
