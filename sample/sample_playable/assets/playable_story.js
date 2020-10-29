@@ -1,8 +1,16 @@
+try {
+  if (module.exports !== undefined) {
+    var playable = require('./playable');
+  }
+} catch (e) {}
+
 (function() {
-  function Story(stage, completion) {
+  function Story(stage, completion, preloader, onEvent) {
     this.completion = completion;
+    this.onEvent = onEvent;
     this.stage = stage;
     this.isWaitingForPreloadToAdvanceScene = false;
+    this.preloader = preloader || new playable.Preloader;
   };
   
   Story.prototype.setBackground = function(image) {
@@ -34,7 +42,7 @@
       this.preloadedScenes.push(scene);
       return new Promise((resolve, reject) => resolve(scene));
     }
-    return playable.Preloader.shared.loadManifest(manifest)
+    return this.preloader.loadManifest(manifest)
       .then(() => {
         this.preloadedScenes.push(scene);
         return scene;
@@ -75,12 +83,27 @@
     }
   };
 
+  Story.prototype.sendEvent = function(event) {
+    if (!this.currentScene) { return; }
+    this.currentScene.onEvent(event);
+  }
+
+  Story.prototype.sceneDelegateGetPreloader = function(scene) {
+    return this.preloader;
+  };
+
+  Story.prototype.sceneDelegateEmitEvent = function(scene, event) {
+    if (!this.onEvent) { return; }
+    this.onEvent(event);
+  };
+
   Story.prototype.sceneDelegateSceneShouldEnd = function(scene) {
     if (scene !== this.currentScene) { return; }
     this.advanceSceneWhenReady();
   };
 
   Story.prototype.sceneDelegateStoryShouldEnd = function(scene) {
+    if (!this.completion) { return; }
     this.completion();
   };
 

@@ -1,5 +1,6 @@
-window.addEventListener('load', function() {
-  playable.play(function() {
-    alert('Ad content completed.');
-  });
-});
+const playable = require('./playable');
+require('./playable_story');
+require('./playable_scenes');
+require('./playable_play');
+
+module.exports = playable;

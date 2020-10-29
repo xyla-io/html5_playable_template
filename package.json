@@ -1,0 +1,25 @@
+{
+  "name": "sample-playable-ad",
+  "version": "0.0.1",
+  "description": "A template for Google Web Designer playable ad content.",
+  "main": "sample/sample_playable/assets/index.js",
+  "types": "sample/sample_playable/assets/index.d.ts",
+  "scripts": {
+    "start": "cd sample/sample_playable/assets && browser-sync start --server '.' --files '*.*' --port 5000",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "cd sample/sample_playable/assets && uglifyjs --compress -o main.min.js -- playable.js playable_*.js sample_*.js",
+    "dist": "npm run minify_dist && npm run debug_dist",
+    "minify_dist": "uglifyjs --compress -o dist/playable.min.js -- sample/sample_playable/assets/playable.js sample/sample_playable/assets/playable_*.js && cp sample/sample_playable/assets/easeljs.min.js sample/sample_playable/assets/tweenjs.min.js sample/sample_playable/assets/preloadjs.min.js dist/",
+    "debug_dist": "uglifyjs --beautify -o dist/playable.js -- sample/sample_playable/assets/playable.js sample/sample_playable/assets/playable_*.js && cp sample/sample_playable/assets/easeljs.js sample/sample_playable/assets/tweenjs.js sample/sample_playable/assets/preloadjs.js dist/"
+  },
+  "author": "Xyla",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "easeljs": "^1.0.2",
+    "preloadjs": "^1.0.1",
+    "tweenjs": "^1.0.2",
+    "uglify-es": "^3.3.9"
+  },
+  "dependencies": {}
+}
